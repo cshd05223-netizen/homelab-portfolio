@@ -19,14 +19,15 @@ Cybersecurity student pursuing OSCP certification. Night-shift hospital supply c
 | Main Rig | AMD Ryzen 7 5700X, RX 6650 XT (8GB), 32GB RAM | Pop!_OS 24.04 | Attack platform, hash cracking, VM host |
 | Recon Laptop | HP Pavilion i3 | Parrot OS (planned dual-boot) | Wireless recon, portable capture |
 | Target Box | HP Stream Laptop | Windows | Authorized victim for network attacks |
-| WiFi Toolkit | 2x ESP32 Cheap Yellow Display (CYD) | ESP32 Marauder firmware | Wireless scanning, Evil Portal, GPS wardriving |
+| WiFi Recon (Board 1) | ESP32 CYD (2.8" single micro-USB) | FancyGotchi | Passive WPA handshake/PMKID capture |
+| WiFi Attack (Board 2) | ESP32 CYD (2.8" single micro-USB) | ESP32 Marauder + GPS | WiFi scanning, Evil Portal, GPS wardriving |
 | RF/Hardware | Flipper Zero (incoming) | Flipper FW | Sub-GHz, RFID, NFC, IR, BLE recon |
 
 ## Projects
 
 ### Completed
-- [CYD Marauder WiFi Toolkit Build](projects/01-cyd-marauder-wifi/) — Flashing ESP32 Marauder onto Cheap Yellow Displays for wireless network reconnaissance
-- [GPS Wardriving Module](projects/02-cyd-gps-wardriving/) — Integrating a GPS module with CYD Marauder for geolocated WiFi mapping
+- [CYD Marauder + GPS Wardriving Build](projects/01-cyd-marauder-gps/) — ESP32 Marauder with integrated GPS module for WiFi recon and geolocated AP mapping
+- [CYD FancyGotchi Passive Hunter](projects/02-cyd-fancygotchi/) — Pwnagotchi-style passive WPA handshake and PMKID capture device
 
 ### In Progress
 - [Evil Portal](projects/03-evil-portal/) — Captive portal credential capture attack simulation
