@@ -1,0 +1,14 @@
+# Captured data (never commit real captures)
+*.cap
+*.pcapng
+*.hccapx
+*.potfile
+*.csv
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Temp
+*.tmp
+*.swp
