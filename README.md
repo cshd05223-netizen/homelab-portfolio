@@ -20,14 +20,15 @@ Cybersecurity student pursuing OSCP certification. Night-shift hospital supply c
 | Recon Laptop | HP Pavilion i3 | Parrot OS (planned dual-boot) | Wireless recon, portable capture |
 | Target Box | HP Stream Laptop | Windows | Authorized victim for network attacks |
 | WiFi Recon (Board 1) | ESP32 CYD (2.8" single micro-USB) | FancyGotchi | Passive WPA handshake/PMKID capture |
-| WiFi Attack (Board 2) | ESP32 CYD (2.8" single micro-USB) | ESP32 Marauder + GPS | WiFi scanning, Evil Portal, GPS wardriving |
+| Multi-Tool (Board 2) | ESP32 CYD (2.8" single micro-USB) | HaleHound (replaced Marauder) | WiFi/BLE/SIGINT offensive multi-tool |
 | RF/Hardware | Flipper Zero (incoming) | Flipper FW | Sub-GHz, RFID, NFC, IR, BLE recon |
 
 ## Projects
 
 ### Completed
-- [CYD Marauder + GPS Wardriving Build](projects/01-cyd-marauder-gps/) — ESP32 Marauder with integrated GPS module for WiFi recon and geolocated AP mapping
+- [CYD Marauder + GPS Wardriving Build](projects/01-cyd-marauder-gps/) — ESP32 Marauder with integrated GPS module for WiFi recon and geolocated AP mapping (firmware retired — see HaleHound)
 - [CYD FancyGotchi Passive Hunter](projects/02-cyd-fancygotchi/) — Pwnagotchi-style passive WPA handshake and PMKID capture device
+- [HaleHound CYD Multi-Tool](projects/05-halehound-cyd/) — ESP32 HaleHound firmware: WiFi/BLE/SIGINT offensive toolkit, replacing Marauder. Flashed; GPS + RF module expansion planned.
 
 ### In Progress
 - [Evil Portal](projects/03-evil-portal/) — Captive portal credential capture attack simulation
