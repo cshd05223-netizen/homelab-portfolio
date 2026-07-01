@@ -1,6 +1,8 @@
 # Project 01 — CYD Marauder + GPS Wardriving Module
 
-## Status: ✅ COMPLETE + RUNNING
+## Status: ✅ COMPLETE (Firmware Retired — Replaced by [HaleHound](../05-halehound-cyd/))
+
+> **Note:** Marauder has been retired as the primary CYD firmware. HaleHound now runs on Board 2, covering all of Marauder's WiFi capabilities plus BLE and SIGINT. This project documents the original Marauder build and remains as a reference.
 
 ## Objective
 
