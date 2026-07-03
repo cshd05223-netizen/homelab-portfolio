@@ -1,8 +1,8 @@
 # Project 01 — CYD Marauder + GPS Wardriving Module
 
-## Status: ✅ COMPLETE (Firmware Retired — Replaced by [HaleHound](../05-halehound-cyd/))
+## Status: ⚠️ FIRMWARE RETIRED — Replaced by [HaleHound](../05-cyd-halehound/)
 
-> **Note:** Marauder has been retired as the primary CYD firmware. HaleHound now runs on Board 2, covering all of Marauder's WiFi capabilities plus BLE and SIGINT. This project documents the original Marauder build and remains as a reference.
+> Marauder did the core WiFi handful (scan, deauth, evil portal, wardrive, sniff) and nothing else. HaleHound covers the same WiFi surface plus BLE, SIGINT, and a gamified UI. This project documents the original build and remains as a reference for the hardware + GPS wiring.
 
 ## Objective
 

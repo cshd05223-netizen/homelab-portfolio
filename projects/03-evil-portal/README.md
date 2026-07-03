@@ -4,7 +4,7 @@
 
 ## Objective
 
-Deploy a rogue captive portal using the CYD's GARMR Captive Portal feature (HaleHound firmware) to understand how attackers use fake WiFi login pages to harvest credentials. Test against own devices only.
+Deploy a rogue captive portal using HaleHound's GARMR captive portal feature to understand how attackers use fake WiFi login pages to harvest credentials. Test against own devices only.
 
 ## Attack Chain Overview
 
@@ -17,7 +17,7 @@ Deploy a rogue captive portal using the CYD's GARMR Captive Portal feature (Hale
 
 ## Hardware
 
-- ESP32 CYD with HaleHound firmware (upgraded from Marauder — see [Project 05](../05-halehound-cyd/))
+- ESP32 CYD with HaleHound firmware (from [Project 05](../05-cyd-halehound/) — GARMR captive portal)
 - MicroSD card with portal files
 
 ## Setup
