@@ -1,47 +1,63 @@
 # Project 06 — SIEM Homelab (Flagship Blue-Team Project)
 
-> **Status:** Planned — Sourcing Hardware
+## Status: 📋 PLANNED — Sourcing Hardware
+
+> This is the flagship project. Everything else in the lab — the red-team boards, the passive hunter, the sensors — exists to generate telemetry that flows into this SIEM for detection, alerting, and incident response practice.
 
 ## Objective
 
-Build a dedicated SIEM (Security Information and Event Management) homelab on a separate used PC. Ingest logs from the full lab environment — main rig, CYDs, network devices — detect threats, write detection rules, and build the core blue-team skill set that maps directly to SOC Analyst and Security Engineer roles.
+Build a dedicated SIEM (Security Information and Event Management) homelab that ingests real attack telemetry from the lab's red-team devices and blue-team sensors. Practice writing detection rules, investigating alerts, and building dashboards — the core SOC analyst workflow.
 
-## Hardware
+## Hardware (planned)
 
-| Role | Device | Status |
-|------|--------|--------|
-| SIEM Box | Used PC (sourcing) | TODO — sourcing |
-| Blue-Sensor CYD | ESP32 CYD (ordered) | TODO — ordered, awaiting arrival |
-| Log Sources | Main rig, CYDs, network gear | Existing |
+| Component | Details | Status |
+|-----------|---------|--------|
+| SIEM Box | Used office PC — i5 6th-gen+, 16GB RAM, 256GB SSD | Sourcing (~$130) |
+| Candidates | Dell Optiplex / HP EliteDesk / Lenovo ThinkCentre | Shopping |
 
-## Planned Stack
+## Software Stack Candidates
 
-*To be determined during build session. Candidates:*
-- **Wazuh** — open-source SIEM + EDR + compliance
-- **ELK Stack** (Elasticsearch, Logstash, Kibana) — log aggregation + visualization
-- **Splunk Free** — industry-standard SIEM (500MB/day free tier)
-- **Suricata / Zeek** — network IDS/IPS
+| Option | Role | Notes |
+|--------|------|-------|
+| Security Onion | Full NIDS + SIEM + log management | Heaviest, most complete |
+| Wazuh | HIDS + SIEM + compliance | Lighter, good for endpoint focus |
+| ELK Stack | Log aggregation + visualization | Flexible, pairs with other tools |
+| Splunk Free | SIEM + dashboards | 500MB/day limit, but industry-standard skills |
+| Suricata | Network IDS/IPS | Can feed into any of the above |
 
-## Build Log
+## Telemetry Sources (from this lab)
 
-*To be completed during build session.*
+| Source | What It Generates |
+|--------|-------------------|
+| HaleHound CYD | Deauth attacks, evil portal attempts, BLE spam — red-team noise |
+| FancyGotchi | Passive handshake captures — baseline wireless activity |
+| Blue Sensor CYD | Deauth detection, rogue AP alerts, honeypot hits |
+| Target Box (Windows) | Endpoint logs, Sysmon events, process creation |
+| Main Rig | Host IDS logs, network tap data |
+| Flipper Zero | Sub-GHz, NFC, BLE attack telemetry |
 
-## Why This Is the Flagship Project
+## Planned Workflow
 
-Red-team skills (CYD tools, Hashcat, Evil Portal) show you can attack. Blue-team skills (SIEM, detection engineering, log analysis, incident response) show you can **defend** — which is what Security Engineer and SOC Analyst roles actually hire for. This project bridges the gap: attacks from the red track generate the alerts and logs that the SIEM detects.
+1. Source and set up the SIEM box
+2. Install chosen SIEM stack
+3. Configure log ingestion from all lab devices
+4. Run red-team attacks from HaleHound / FancyGotchi
+5. Write detection rules that catch those attacks
+6. Build dashboards showing attack patterns
+7. Document the full attack → detect → alert → investigate cycle
+
+## Results
+
+TODO — this is the project where real results matter most. The writeup will document actual detection rules written, alerts triggered, false positive rates, and investigation workflows. No fabricated data.
 
 ## Defensive Takeaways
 
-*To be completed after build — will include detection rule methodology, log source coverage analysis, and gap identification.*
+TODO — will cover: what attacks are easy vs hard to detect, tuning alert thresholds, dealing with false positives, and how the attack tools in this lab map to real-world threat actor TTPs.
 
-## Career Relevance
+## OSCP / Career Relevance
 
-- SOC Analyst: log triage, alert investigation, incident timeline reconstruction
-- Security Engineer: detection rule authoring, SIEM architecture, log pipeline design
-- Security+, CySA+ certification material maps directly to SIEM operations
-- Real engagement experience with industry-standard tools
-
-## Legal & Ethical Notes
-
-- All log sources are own devices on own network
-- No external network monitoring or third-party data ingestion
+- SOC analyst core skill: log analysis, alert triage, investigation
+- SIEM administration and rule writing
+- Understanding attack telemetry from the attacker's perspective (because I built the red-team tools)
+- Maps directly to Security+, CySA+, and SOC Analyst job requirements
+- This project IS the resume differentiator — building detection for attacks I generated myself

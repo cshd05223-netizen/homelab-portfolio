@@ -1,61 +1,69 @@
 # Cybersecurity Homelab Portfolio
 
-A hands-on security lab built on physical hardware. Blue-team defense is the career path; red-team offense is the hobby that feeds it. Every project documents methodology, tools, results, and takeaways — structured like real engagement reporting.
+A hands-on security lab built on physical hardware. Blue-team defense is the career path; red-team offense is the hobby that feeds it. Every project documents methodology, results, and defensive takeaways — no fabricated data.
 
-> This is a living repo. Projects are added as they're completed.
+**Current Phase:** Device Setup — hardware arriving, flashing, and integrating before the first full attack-and-detect exercise.
 
 ## About Me
 
-Cybersecurity student pivoting into a Security Engineer career via SOC work. Night-shift hospital supply chain worker building practical security skills through hands-on lab work.
+21-year-old cybersecurity student at Lackawanna College pursuing a career as a Security Engineer via the SOC analyst path. I learn by building — every device in this lab exists to teach me how attacks work so I can detect and stop them.
 
-- **Career Path:** Security Engineer (SOC Analyst → Security Engineer)
-- **Certifications In Progress:** Security+ → CCNA → CySA+ (OSCP long-term)
-- **Training Platforms:** TryHackMe, HackTheBox
-- **Focus Areas:** SIEM / detection engineering, log analysis, incident response, wireless security
+**Cert track:** Security+ → CCNA → CySA+ (OSCP long-term goal)
+**Study:** HTB Information Security Foundations → SOC Analyst path
 
 ## Lab Environment
 
 | Role | Hardware | OS / Firmware | Purpose |
-|------|----------|---------------|---------|
-| Main Rig | AMD Ryzen 7 5700X, RX 6650 XT (8GB), 32GB RAM | Pop!_OS 24.04 | Attack platform, hash cracking, VM host, SIEM (planned) |
-| SIEM Box | Used PC (sourcing) | TBD | Dedicated SIEM — log aggregation, detection engineering |
-| Recon Laptop | HP Pavilion i3 | Parrot OS (planned dual-boot) | Wireless recon, portable capture |
-| Target Box | HP Stream Laptop | Windows | Authorized victim for network attacks |
-| WiFi Recon (Board 1) | ESP32 CYD (2.8" single micro-USB) | FancyGotchi | Passive WPA handshake/PMKID capture |
-| WiFi Multi-Tool (Board 2) | ESP32 CYD (2.8" single micro-USB) | HaleHound (replaced Marauder) | WiFi/BLE/SIGINT multi-tool, Evil Portal (GARMR), wardriving |
-| Blue-Sensor CYD | ESP32 CYD (ordered) | TBD | Blue-team network sensor (planned) |
-| T-Embed | LILYGO T-Embed (ordered) | TBD | Awaiting delivery |
-| Atom Lite | M5Stack Atom Lite (ordered) | Flock You (dedicated) | Dedicated Flock ALPR / surveillance detection |
-| RF/Hardware | Flipper Zero (incoming July) | Flipper FW | Sub-GHz, RFID, NFC, IR, BLE recon |
+| --- | --- | --- | --- |
+| Main Rig | AMD Ryzen 7 5700X, RX 6650 XT (8GB), 16GB RAM | Pop!_OS 24.04 | Analysis, SIEM VM host, hash cracking |
+| SIEM Box | Used office PC (sourcing) | Security Onion / Wazuh (planned) | Dedicated SIEM — log aggregation, detection |
+| Recon Laptop | HP Pavilion i3 | Parrot OS (planned dual-boot) | Portable recon / capture |
+| Target Box | HP Stream Laptop | Windows | Authorized victim for generating telemetry |
+| Red Attack Board | ESP32 CYD (2432S028R) | HaleHound v3.6.1 | WiFi/BLE/SIGINT attacks |
+| Passive Hunter | ESP32 CYD (2432S028R) | FancyGotchi | Passive WPA/PMKID farming |
+| Blue Sensor Board | ESP32 CYD (dead touch, headless) | Custom sketch (planned) | Honeypot / deauth-detector / SIEM feed |
+| RF Multi-Tool | Flipper Zero | Stock (custom TBD) | Sub-GHz, NFC/RFID, IR, BLE breadth |
+| Flock Detector | M5 Atom Lite (inbound) | flock-you | ALPR / surveillance detection |
+| RF Expansion | HaleHound Cinder Ferret V2 (inbound) | — | CC1101 + NRF24 + GPS add-on for HaleHound CYD |
+| T-Embed | LILYGO T-Embed CC1101 (inbound) | Bruce (planned) | Sub-GHz / WiFi / BLE |
 
 ## Projects
 
 ### Blue Team (Career Track)
-- [SIEM Homelab](projects/06-siem-homelab/) — Flagship project: dedicated SIEM box for log aggregation, detection engineering, and incident response **(Planned — Sourcing Hardware)**
 
-### Red Team (Hobby Track)
-#### Completed
-- [CYD Marauder + GPS Wardriving Build](projects/01-cyd-marauder-gps/) — ESP32 Marauder with GPS for WiFi recon and AP mapping **(Firmware Retired → HaleHound)**
-- [CYD FancyGotchi Passive Hunter](projects/02-cyd-fancygotchi/) — Pwnagotchi-style passive WPA handshake and PMKID capture
-- [CYD HaleHound Multi-Tool](projects/05-cyd-halehound/) — WiFi/BLE/SIGINT multi-tool replacing Marauder as daily driver
+| # | Project | Status |
+|---|---------|--------|
+| 06 | [SIEM Homelab (Flagship)](projects/06-siem-homelab/README.md) | 📋 Planned — sourcing hardware |
+| 09 | [Blue Sensor CYD](projects/09-blue-sensor-cyd/README.md) | 📋 Planned — dead-touch board allocated |
 
-#### In Progress / Planned
-- [Evil Portal](projects/03-evil-portal/) — Captive portal credential capture via HaleHound GARMR
-- [WPA2 Handshake Capture & Crack](projects/04-hashcat-wpa2-crack/) — Full capture → crack pipeline with Hashcat + GPU
+### Red Team (Offense → Defense Learning)
+
+| # | Project | Status |
+|---|---------|--------|
+| 01 | [CYD Marauder + GPS](projects/01-cyd-marauder-gps/README.md) | ✅ Complete (firmware retired → HaleHound) |
+| 02 | [CYD FancyGotchi](projects/02-cyd-fancygotchi/README.md) | ✅ Complete + running (board → future blue sensor) |
+| 05 | [CYD HaleHound Multi-Tool](projects/05-cyd-halehound/README.md) | ✅ Flashed + working |
+| 07 | [Atom Lite — Flock Detector](projects/07-atom-lite-flock/README.md) | 📋 Placeholder — device inbound |
+| 08 | [Flipper Zero](projects/08-flipper-zero/README.md) | 📋 Placeholder — device owned |
+
+### Backlog (not started — get folders when work begins)
+
+- **Evil Portal** — Captive portal attack simulation using HaleHound GARMR. Own phone / own network only.
+- **WPA2 Hashcat Crack** — Full capture-to-crack pipeline using FancyGotchi .pcap + Hashcat on RX 6650 XT.
 
 ## Methodology
 
-Every project follows this structure:
-1. **Objective** — What am I testing and why?
-2. **Hardware/Software** — What's in the kit?
-3. **Build Process** — Step-by-step with troubleshooting notes
-4. **Results** — What worked, what didn't, evidence
-5. **Defensive Takeaways** — How do you defend against this attack?
-6. **Career Relevance** — How does this skill map to the job?
+Every completed project follows this structure:
+1. **Objective** — what and why
+2. **Hardware / Software** — bill of materials
+3. **Build Process** — step-by-step with troubleshooting
+4. **Results** — what actually happened (no fabrication)
+5. **Defensive Takeaways** — how to detect / prevent this attack
+6. **OSCP / Career Relevance** — how it maps to certs and job skills
 
 ## Legal & Ethics
 
-All testing is performed on hardware and networks I own. No unauthorized access is performed. Projects involving credential capture (Evil Portal, WPA2 cracking) use only my own devices and my own network credentials. This lab exists to understand attacks so I can better defend against them.
+All testing is performed on hardware and networks I own. Captures that include neighbor traffic are identified and excluded from any cracking or analysis. This lab exists to learn offense so I can build better defense.
 
 ## Contact
 

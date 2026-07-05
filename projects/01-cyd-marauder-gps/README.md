@@ -1,81 +1,47 @@
 # Project 01 — CYD Marauder + GPS Wardriving Module
 
-## Status: ⚠️ FIRMWARE RETIRED — Replaced by [HaleHound](../05-cyd-halehound/)
+## Status: ✅ COMPLETE — Firmware Retired → [HaleHound](../05-cyd-halehound/)
 
-> Marauder did the core WiFi handful (scan, deauth, evil portal, wardrive, sniff) and nothing else. HaleHound covers the same WiFi surface plus BLE, SIGINT, and a gamified UI. This project documents the original build and remains as a reference for the hardware + GPS wiring.
+> Marauder was the first firmware flashed on the CYD. It handled core WiFi tasks (scan, deauth, evil portal, packet monitor) and GPS wardriving with an external module. Retired once HaleHound replaced it with a broader feature set covering WiFi + BLE + SIGINT on the same board.
 
 ## Objective
 
-Build a portable WiFi reconnaissance and wardriving platform using an ESP32-2432S028R (Cheap Yellow Display) running ESP32 Marauder firmware with an integrated GPS module. The goal is to understand wireless network enumeration, probe request behavior, and geolocation mapping of access points — core skills in wireless penetration testing.
+Flash ESP32 Marauder firmware onto a Cheap Yellow Display (CYD) and integrate a GPS module for WiFi wardriving and geolocation-tagged network scanning.
 
 ## Hardware
 
 | Component | Details |
 |-----------|---------|
-| Board | ESP32-2432S028R (2.8" TFT, single micro-USB) |
-| Firmware | ESP32 Marauder (flashed via web flasher) |
-| GPS Module | Adafruit Ultimate GPS Breakout (PA1616D) |
-| GPS Antenna | External active antenna (SMA connector) |
-| Storage | MicroSD card for PCAP and GPS logs |
-| Power | USB power bank for portable operation |
+| Board | ESP32-2432S028R (CYD, 2.8", single micro-USB) |
+| Firmware | ESP32 Marauder |
+| GPS Module | BN-220 (wired: VCC→3.3V, GND→GND, TX→RX, RX→TX) |
+| SD Card | FAT32 formatted, for wardriving logs |
 
-## Firmware Flash Process
+## Build Process
 
-1. Connected CYD via micro-USB
-2. Used the ESP32 Marauder web flasher (Chrome/Edge, WebSerial API)
-3. Selected the correct board variant (CYD — single micro-USB, 2.8" display)
-4. Flashed successfully on first attempt
-
-## GPS Integration
-
-The GPS module was wired to the CYD's GPIO header to enable location-tagged scanning:
-
-- GPS TX → CYD RX (GPIO pin)
-- GPS RX → CYD TX (GPIO pin)
-- VIN → 3.3V
-- GND → GND
-
-After wiring, GPS functionality was enabled through the Marauder menu. GPS lock was confirmed with satellite count displayed on the TFT screen.
-
-## Capabilities
-
-### WiFi Scanning
-- **AP Scan:** Enumerates all access points in range with SSID, BSSID, channel, signal strength, and encryption type
-- **Station Scan:** Identifies connected client devices and their associated APs
-- **Probe Request Sniffing:** Captures probe requests from devices searching for known networks — reveals network history of nearby devices
-
-### GPS-Enabled Wardriving
-- Logs discovered access points with GPS coordinates
-- Output compatible with mapping tools (Wigle, Google Earth KML export)
-- Enables physical mapping of network infrastructure
-
-### Attack Capabilities (lab use only)
-- **Deauthentication:** Forces client disconnects from target AP (own network only)
-- **Evil Portal:** Rogue captive portal for credential harvesting (own devices only)
-- **Beacon Spam:** Broadcasts fake SSIDs to demonstrate AP spoofing
+1. Flashed Marauder via web flasher onto the CYD
+2. Verified WiFi scanning, deauth, and packet monitor features on the touchscreen
+3. Wired BN-220 GPS module to the CYD (4 wires: VCC, GND, TX→RX, RX→TX)
+4. Confirmed GPS lock and wardriving output to SD card in WiGLE-compatible format
+5. Tested scan + GPS logging while mobile
 
 ## Results
 
-- Successfully scanned and enumerated all home network APs and clients
-- GPS module locks and logs coordinates accurately
-- Probe request captures revealed the extent of device network memory leakage
-- Wardrive data collected for own neighborhood mapping exercise
+- WiFi scanning and deauth working on touchscreen interface
+- GPS module achieved satellite lock and logged wardrive data to SD
+- WiGLE-format CSV output confirmed on SD card
+- Firmware retired when HaleHound offered the same WiFi features plus BLE and SIGINT
 
 ## Defensive Takeaways
 
-1. **Probe requests leak network history.** Devices constantly broadcast the names of networks they've previously connected to. Disable auto-join for networks you no longer use.
-2. **Open networks are trivially spoofable.** Any SSID can be cloned. Never trust a network name alone — use VPNs on public WiFi.
-3. **Deauthentication attacks are trivial.** WPA2 has no management frame protection. WPA3 and 802.11w (Protected Management Frames) mitigate this.
-4. **Physical proximity matters.** All of these attacks require RF range. Physical security and RF shielding are real defensive controls.
+- Wardriving shows how much network metadata leaks passively (SSID, BSSID, channel, signal strength, GPS coordinates)
+- Hidden SSIDs don't prevent detection — the AP still responds to probes
+- WPA3 and client isolation reduce the attack surface that tools like Marauder exploit
+- Knowing what wardriving collects helps build detection rules for SIEM (unexpected probe responses, rogue APs)
 
-## OSCP Relevance
+## OSCP / Career Relevance
 
-- Wireless network enumeration is part of the OSCP+ wireless module
-- Understanding probe requests and AP behavior feeds directly into social engineering and rogue AP attack chains
-- The capture → analyze → attack pipeline mirrors real engagement methodology
-
-## Legal & Ethical Notes
-
-- All scanning performed on own network or in passive mode only
-- Active attacks (deauth, Evil Portal) conducted exclusively against own devices with explicit authorization
-- Passive scanning (AP enumeration, probe sniffing) is legal in the US as it involves only receiving publicly broadcast RF signals
+- Wireless reconnaissance methodology
+- Understanding GPS-tagged network mapping
+- Hardware integration (UART wiring, serial communication)
+- Attack tool → defense awareness pipeline

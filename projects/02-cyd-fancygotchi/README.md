@@ -1,92 +1,53 @@
 # Project 02 — CYD FancyGotchi (Passive Handshake Hunter)
 
-## Status: ✅ COMPLETE + RUNNING
+## Status: ✅ COMPLETE + RUNNING — Board earmarked for future [Blue Sensor](../09-blue-sensor-cyd/) conversion
 
 ## Objective
 
-Build a standalone passive WPA handshake and PMKID capture device using a second ESP32-2432S028R (Cheap Yellow Display) running FancyGotchi firmware — a CYD port of the Pwnagotchi concept. The goal is to passively collect WPA handshake material for offline cracking analysis, understanding the capture side of the WPA2 attack pipeline without any active interference with target networks.
+Build a standalone passive WPA handshake and PMKID capture device using an ESP32 CYD running FancyGotchi — a Pwnagotchi-style firmware that hunts for authentication material without active attacks.
 
 ## Hardware
 
 | Component | Details |
 |-----------|---------|
-| Board | ESP32-2432S028R (2.8" TFT, single micro-USB) |
-| Firmware | FancyGotchi CYD Port |
-| Flasher | [FancyGotchi CYD Flasher](https://atomnft.github.io/Fancygotchi-CYD-port-flasher/) |
-| Storage | MicroSD card for .pcap capture storage |
+| Board | ESP32-2432S028R (CYD, 2.8", single micro-USB) |
+| Firmware | FancyGotchi CYD port |
+| Flasher | [AtomNFT FancyGotchi CYD Flasher](https://atomnft.github.io/Fancygotchi-CYD-port-flasher/) |
+| SD Card | FAT32 formatted, stores .pcap captures |
 
-## Firmware Flash Process
+## Build Process
 
-1. Connected CYD via micro-USB
-2. Navigated to the FancyGotchi CYD web flasher
-3. Selected "Fancygotchi CYD" from the left column (single micro-USB variant)
-4. Flashed successfully — device booted clean with animated face on first power-up
-
-## How It Works
-
-FancyGotchi is a Pwnagotchi-style AI that passively monitors WiFi traffic and captures WPA authentication material. It requires zero interaction once powered on — just set it near WiFi networks and let it collect.
-
-### Capture Types
-
-| Metric | What It Means | How It's Captured |
-|--------|---------------|-------------------|
-| **APs** | Access points detected in range | Passive beacon frame monitoring |
-| **EAPOL** | Full WPA 4-way handshakes | Requires a device to connect or reconnect to an AP — captured passively by sniffing the authentication exchange |
-| **PMKID** | Clientless WPA capture | Extracted from AP beacon/association frames — no client device needed, no deauth needed |
-| **Pwned** | Total saved captures | Running count of all captured authentication material saved to SD |
-
-### Display & Controls
-
-- Animated face with mood indicator (reflects capture activity)
-- Screen-zone touch controls:
-  - **Top-Left:** Theme toggle
-  - **Top-Right:** Face toggle
-  - **Bottom-Left:** Web interface
-  - **Bottom-Right:** Deauth toggle
-
-### Storage
-
-All captures are saved to the SD card as `.pcap` files, compatible with:
-- **Wireshark** — for manual analysis and handshake verification
-- **hashcat** — for offline WPA2 cracking (after conversion to `.hccapx` or `.22000` format)
-- **aircrack-ng** — alternative cracking tool
+1. Used the AtomNFT web flasher — selected "Fancygotchi CYD" build (left column, single micro-USB)
+2. Flashed clean, booted to animated face + mood display
+3. Inserted FAT32 SD card — mount confirmed
+4. Left running overnight at desk for passive collection
 
 ## Results
 
-- Device booted clean, SD mounted successfully on first run
-- Left running overnight at desk — collected **~22 captures** (mix of EAPOL handshakes and PMKIDs)
-- Captures span all nearby networks in range (own network + neighbors' networks detected passively)
+- Collected ~22 handshakes/PMKIDs overnight at desk
+- Those ~22 span ALL nearby networks (neighbors included) — only own-network captures are legal to crack-test
+- Captures saved as .pcap to SD card
+- Screen-zone controls working: ^L theme, ^R face, vL web, vR deauth
 
-## The Capture → Crack Pipeline
+### Metrics Meaning
 
-This device is the **front half** of the WPA2 offline cracking attack chain:
-
-```
-FancyGotchi captures .pcap → Transfer to PC → Filter for OWN network only →
-Convert to hashcat format → Crack with hashcat on GPU (RX 6650 XT) →
-Verify own password strength
-```
-
-**⚠️ CRITICAL: Only own-network captures (Bam0701 / known Comcast BSSID) are legal to crack-test.** The device captures everything in range passively, but cracking a neighbor's handshake without authorization is a federal crime under the CFAA.
+| Metric | What It Means |
+|--------|---------------|
+| EAPOL | Full WPA 4-way handshake — requires a device to connect/reconnect to the AP |
+| PMKID | Clientless capture pulled directly from the AP beacon — no deauth needed |
+| Pwned | Total saved captures across both types |
 
 ## Defensive Takeaways
 
-1. **Passive capture is invisible.** There is no way to detect that a FancyGotchi is collecting your handshakes. It sends nothing — it only listens. This is why strong passwords matter.
-2. **WPA2 handshakes are always exposed.** Every time a device connects to your network, the 4-way handshake is broadcast in cleartext. Anyone in RF range can capture it.
-3. **PMKID doesn't even need a client.** Some APs leak PMKID in the first frame, meaning an attacker doesn't need to wait for a device to connect or force a deauth.
-4. **Password strength is your only defense.** Once captured, the handshake is cracked offline with no rate limiting. A weak password falls in minutes. A strong one (16+ random chars) is computationally infeasible.
-5. **WPA3 mitigates this.** SAE (Simultaneous Authentication of Equals) replaces the 4-way handshake and is resistant to offline dictionary attacks.
+- Passive capture requires ZERO interaction with the target — no deauth, no rogue AP, no alerts
+- PMKID capture means an attacker doesn't even need to wait for a client to connect
+- WPA2-Personal with weak passwords falls to offline cracking after a single PMKID grab
+- WPA3-SAE eliminates PMKID attacks entirely — strongest defense against passive capture
+- Enterprise networks using 802.1X/RADIUS are not vulnerable to this capture method
 
-## OSCP Relevance
+## OSCP / Career Relevance
 
-- The passive capture → offline crack pipeline is the core WiFi pentest methodology
-- Understanding EAPOL vs PMKID capture methods directly maps to wireless module content
-- Differentiating legal passive capture from illegal active attacks is essential for real engagement scoping
-- Chain continues in [Project 04 — Hashcat WPA2 Crack](../04-hashcat-wpa2-crack/) (pending)
-
-## Legal & Ethical Notes
-
-- All captures are passive — the device transmits nothing and causes zero network disruption
-- Passive RF monitoring is legal in the US (receiving publicly broadcast signals)
-- Only own-network captures will be used for cracking exercises
-- Neighbor network captures are automatically collected but will NOT be cracked or analyzed
+- Understanding passive vs active wireless attacks
+- The capture-to-crack pipeline (FancyGotchi feeds into the Hashcat backlog project)
+- Legal scoping: identifying which captures are in-scope vs out-of-scope
+- Firmware flashing and embedded device management
