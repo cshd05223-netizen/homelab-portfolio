@@ -33,7 +33,7 @@ A hands-on security lab built on physical hardware. Blue-team defense is the car
 
 | # | Project | Status |
 |---|---------|--------|
-| 06 | [SIEM Homelab (Flagship)](projects/06-siem-homelab/README.md) | 📋 Planned — sourcing hardware |
+| 06 | [SIEM Homelab (Flagship)](projects/06-siem-homelab/README.md) | 📋 Planned — architecture designed, sourcing hardware |
 | 09 | [Blue Sensor CYD](projects/09-blue-sensor-cyd/README.md) | 📋 Planned — dead-touch board allocated |
 
 ### Red Team (Offense → Defense Learning)
