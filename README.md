@@ -2,7 +2,7 @@
 
 A hands-on security lab built on physical hardware I own. **Blue-team defense is the career path; red-team offense is the hobby that feeds it.** Every project documents methodology, results, and defensive takeaways — no fabricated data.
 
-> **Current phase:** Building and integrating the detection lab. The SIEM lab core is up; the full attack-and-detect automation layer is in progress.
+> **Current phase:** Purple dojo — lab core is built (isolated network, Wazuh SIEM, attack/target VMs). Detection is still manual. Next build: Suricata on the host bridge feeding Wazuh to automate the attack->detect->defend loop.
 
 ## About Me
 
@@ -23,25 +23,29 @@ Cybersecurity student on a **blue-team career track — SOC Analyst -> Security 
 | SIEM | (Docker on host) | Wazuh 4.9.0 | Log analysis, detection, dashboards |
 | Counter-surveillance | M5 Atom Lite (ESP32-PICO-D4) | eye-spy | Passive BLE/WiFi surveillance detector |
 | Multi-protocol RF | ESP32 CYD (2.8") | HaleHound | WiFi/BLE/Sub-GHz security auditing |
-| RF/NFC/Sub-GHz | Flipper Zero | *(incoming)* | Sub-GHz, NFC, RFID, IR |
+| RF/NFC/Sub-GHz | Flipper Zero | Momentum (custom) | Sub-GHz, NFC, IR, BadUSB, iButton, light BLE |
 
 ## Projects
 
 ### Current
 
-- **[01 - SIEM Homelab (Wazuh)](projects/01-siem-homelab)** *(flagship, in progress)* - Isolated detection lab: Wazuh SIEM, sealed virtual network, Kali attacker, Metasploitable target. Attack -> detect -> defend.
+- **[01 - SIEM Homelab (Wazuh)](projects/01-siem-homelab)** *(flagship, in progress)* - Isolated purple learning lab ("dojo"): Wazuh SIEM, sealed virtual network, Kali attacker, Metasploitable target. Lab core is built; detection layer (Suricata -> Wazuh) is not yet built. Attack -> detect -> defend story is in progress.
 - **[02 - Counter-Surveillance Detector (M5 Atom Lite / eye-spy)](projects/02-m5-eyespy-counter-surveillance)** *(complete)* - Passive BLE + WiFi detector for surveillance/tracking devices (ALPR cameras, AirTags, body cams). Defensive privacy tool.
 - **[03 - HaleHound CYD](projects/03-halehound-cyd)** *(complete)* - ESP32 Cheap Yellow Display flashed with HaleHound for multi-protocol wireless security auditing.
+- **[06 - Flipper Zero (Momentum)](projects/06-flipper-zero)** *(complete — setup; ongoing exploration)* - Multi-protocol RF/wireless/hardware learning tool. Sub-GHz, NFC, IR, BadUSB, iButton, BLE. Flashed with Momentum custom firmware.
 
 ### Archived (completed; hardware since repurposed)
 
 - **[04 - CYD Marauder + GPS](projects/04-cyd-marauder-gps-archived)** - ESP32 Marauder wardriving/WiFi-recon build. Completed; board later repurposed.
 - **[05 - CYD FancyGotchi](projects/05-cyd-fancygotchi-archived)** - Pwnagotchi-style passive WPA handshake/PMKID capture. Completed; board later repurposed.
 
-### Planned
+### Planned / Roadmap
 
-- **Blue-team wireless sensor** - repurposing the dead-touchscreen CYD into a headless deauth/rogue-device detector. *(Not yet built.)*
-- **Suricata -> Wazuh detection layer** - network IDS on the host bridge feeding the SIEM for automated attack detection. *(Next build.)*
+- **Stage 1 — Suricata detection layer** *(In Progress / Next)* — Suricata (network IDS) on the host bridge feeding Wazuh for automated attack detection. Completes the attack->detect->defend story. The detection layer is **not yet built**.
+- **Stage 2 — CYD honeypot** *(Planned)* — dead-touchscreen CYD flashed with ESP32-Honeypot (dagnazty/7h30th3r0n3), webhook alerts into SIEM + Wazuh agent on a real endpoint.
+- **Stage 3 — Dedicated blue rig** *(Planned / Future)* — separate used office PC as an always-on Wazuh / Security Onion box, independent of the gaming rig.
+- **Stage 4 — Network visibility** *(Planned / Future)* — managed switch with port mirroring or pfSense/OPNsense for real network monitoring ("watchtower").
+- **Stage 5 — Enterprise sim** *(Planned / Long-term)* — Active Directory, multiple VMs, VLANs.
 
 ## Methodology
 
