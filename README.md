@@ -2,7 +2,7 @@
 
 A hands-on security lab built on physical hardware I own. Blue-team defense is the career path; red-team offense is the hobby that feeds it. Every project documents methodology, results, and defensive takeaways — no fabricated data.
 
-**Current phase:** Detection lab (purple dojo) is **complete and verified** — isolated network, Wazuh SIEM, and a working end-to-end attack → detect pipeline (Kali → Suricata → Wazuh dashboard). **Next build:** a honeypot on a small VPS to collect real internet attack data, paged into my own tooling.
+**Current phase:** Detection lab (purple dojo) is **complete and verified** — isolated network, Wazuh SIEM, and a working end-to-end attack → detect pipeline (Kali → Suricata → Wazuh dashboard). **VPS honeypot is live** — an internet-facing SSH honeypot (Cowrie + Grafana) catching real attackers 24/7. **Next:** GeoIP attack map and agent-alerting hookup for the honeypot.
 
 ## About Me
 
@@ -26,6 +26,7 @@ Cybersecurity student on a blue-team career track — SOC Analyst → Security E
 | Wardriving / Flock detection | XIAO ESP32-C5 | Biscuit (DIY) | Dual-band wardriving + surveillance detection, phone-controlled |
 | Multi-protocol RF | ESP32 CYD (2.8") | HaleHound | WiFi/BLE/Sub-GHz security auditing |
 | RF/NFC/Sub-GHz | Flipper Zero | Momentum (custom) | Sub-GHz, NFC, IR, BadUSB, iButton, light BLE |
+| VPS Honeypot | DigitalOcean droplet (Ubuntu 24.04) | Cowrie 3.0.12 + Loki/Grafana | Live internet-facing SSH honeypot + dashboard |
 
 ## Projects
 
@@ -33,6 +34,9 @@ Cybersecurity student on a blue-team career track — SOC Analyst → Security E
 
 **01 — SIEM Homelab (Wazuh + Suricata)** *(flagship — COMPLETE)*
 Isolated purple learning lab ("dojo"): Wazuh SIEM, sealed virtual network, Kali attacker, Metasploitable target, Suricata network IDS. The full attack → detect → defend loop is built and verified: an nmap scan from Kali is detected by Suricata, shipped through Filebeat into the Wazuh indexer, and displayed as alerts in the dashboard with correct source-IP attribution. Includes a real detection-pipeline debugging story (see writeup).
+
+**08 — Internet-Facing SSH Honeypot (Cowrie + Grafana)** *(flagship — COMPLETE)*
+Real internet-exposed SSH honeypot on a DigitalOcean VPS capturing live attacker credentials, commands, and pivot attempts — hardened with key-only auth, Tailscale private dashboard, and a lightweight Loki + Promtail + Grafana log pipeline. Captured a pivoting botnet within minutes of going live.
 
 **02 — Counter-Surveillance Detector (M5 Atom Lite / eye-spy)** *(complete)*
 Passive BLE + WiFi detector for surveillance/tracking devices (AirTags, body cams, camera vendor OUIs). Defensive privacy tool. Retained as the dedicated passive/counter-surveillance node.
@@ -54,16 +58,16 @@ Single ~$8 dual-band ESP32-C5 running DIY Biscuit firmware, controlled entirely 
 
 ## Roadmap
 
-The detection lab (Stage 1) is done, so the roadmap now moves outward — from a staged home lab toward real-world attack data and automation.
+The detection lab (Stage 1) is done and the honeypot (Stage 2) is live. Remaining honeypot enhancements (GeoIP map, agent-alerting, canary tokens) are the next near-term work.
 
 | Stage | What | Status |
 |-------|------|--------|
 | 1 | **Detection lab (Suricata → Wazuh)** — attack → detect → defend loop on the isolated lab. | ✅ Complete |
-| 2 | **Honeypot on a VPS** — a small, isolated, internet-exposed disposable box that catches real attackers, generating real attack data and cases to investigate. | Next |
-| 3 | **Honeypot → pager** — wire honeypot alerts into my own notification tooling so real detections page me in real time (SOAR-style alerting). | Planned |
+| 2 | **Honeypot on a VPS** — internet-exposed Cowrie SSH honeypot on DigitalOcean, Loki + Grafana dashboard over Tailscale, capturing real attackers 24/7. | ✅ Complete |
+| — | ↳ **Honeypot enhancements** — GeoIP attack map (MaxMind), tuned high-signal alerting to my agent/pager, canary tokens to separate human attackers from bot noise. | Next |
+| 3 | **Self-hosted services + hardening** — e.g. a self-hosted media server over Tailscale, folded into a 3-2-1 backup/DR plan, as a practical infra + hardening exercise. | Planned |
 | 4 | **Tor-detection exercise** — run Tor in an isolated VM and build detection for its traffic signature in Wazuh (defensive/legal). | Planned |
-| 5 | **Self-hosted services + hardening** — e.g. a self-hosted media server over Tailscale, folded into a 3-2-1 backup/DR plan, as a practical infra + hardening exercise. | Planned |
-| 6 | **Host / endpoint detection** — Wazuh agents on my own devices for host-based (endpoint) detection, kept separate from the deliberately-attacked honeypot tier. | Later |
+| 5 | **Host / endpoint detection** — Wazuh agents on my own devices for host-based (endpoint) detection, kept separate from the deliberately-attacked honeypot tier. | Later |
 
 **Trust-tier discipline:** deliberately-attacked systems (lab, honeypot) are kept isolated from any trusted-device monitoring. The honeypot is meant to be compromised — so it never shares a box or a SIEM brain with anything I actually protect.
 
