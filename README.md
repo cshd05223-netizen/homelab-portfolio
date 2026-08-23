@@ -30,15 +30,27 @@ Cybersecurity student on a blue-team career track — SOC Analyst → Security E
 
 ## Projects
 
-### Flagship (complete)
+### Complete
 
 **01 — SIEM Homelab (Wazuh + Suricata)** — *COMPLETE*
 Isolated purple learning lab ("dojo"): Wazuh SIEM, sealed virtual network, Kali attacker, Metasploitable target, Suricata network IDS. The full attack → detect → defend loop is built and verified: an nmap scan from Kali is detected by Suricata, shipped through Filebeat into the Wazuh indexer, and displayed as alerts in the dashboard with correct source-IP attribution. Includes a real detection-pipeline debugging story (see writeup).
 
+**02 — Counter-Surveillance Detector (M5 Atom Lite / eye-spy)** — *COMPLETE*
+Passive BLE + WiFi detector for surveillance/tracking devices (AirTags, body cams, camera vendor OUIs). Defensive privacy tool.
+
+**03 — HaleHound CYD** — *COMPLETE*
+ESP32 Cheap Yellow Display flashed with HaleHound for multi-protocol wireless auditing (WiFi/BLE/Sub-GHz). Now a learning board; wardriving role superseded by the Biscuit C5 (project 07).
+
+**06 — Flipper Zero (Momentum)** — *COMPLETE*
+Multi-protocol RF/wireless/hardware learning tool. Sub-GHz, NFC, IR, BadUSB, iButton, BLE. Flashed with Momentum firmware.
+
+**07 — Biscuit Wardriving Node (XIAO ESP32-C5)** — *COMPLETE*
+Single ~$8 dual-band ESP32-C5 running DIY Biscuit firmware, phone-controlled over Bluetooth. Handles wardriving and Flock/surveillance detection in one device.
+
 **08 — Internet-Facing SSH Honeypot (Cowrie + Grafana)** — *COMPLETE*
 Real internet-exposed SSH honeypot on a DigitalOcean VPS capturing live attacker credentials, commands, and pivot attempts — hardened with key-only auth, Tailscale private dashboard, and a lightweight Loki + Promtail + Grafana log pipeline. 25k+ real attacks over ~2 weeks, a GeoIP attack map plotting attacker locations on a world map, and a honeytoken bait file separating human attackers from bot noise. Survived a self-inflicted lockout → rebuilt with defense-in-depth (see writeup).
 
-### In Progress / Active
+### Active
 
 **Home Network Watcher** — *in progress, current*
 A second, separate SIEM watching the real home LAN (Suricata + EveBox) — device visibility, catching scans/attacks on the real network, and seeing my own Biscuit scans land. Distinct from the isolated 10.10.10.0/24 lab. Chose Suricata + EveBox over Security Onion to fit the 16GB rig.
@@ -54,20 +66,6 @@ Portable Raspberry Pi 4 (8GB) Kali pentest kit — a travel attacker + second at
 
 **Music Server** — *parked*
 Navidrome self-hosted media server — hobby infrastructure project, currently parked.
-
-### Complete (ongoing exploration)
-
-**02 — Counter-Surveillance Detector (M5 Atom Lite / eye-spy)** — *complete*
-Passive BLE + WiFi detector for surveillance/tracking devices (AirTags, body cams, camera vendor OUIs). Defensive privacy tool.
-
-**03 — HaleHound CYD** — *complete*
-ESP32 Cheap Yellow Display flashed with HaleHound for multi-protocol wireless auditing (WiFi/BLE/Sub-GHz). Now a learning board; wardriving role superseded by the Biscuit C5 (project 07).
-
-**06 — Flipper Zero (Momentum)** — *complete, ongoing exploration*
-Multi-protocol RF/wireless/hardware learning tool. Sub-GHz, NFC, IR, BadUSB, iButton, BLE. Flashed with Momentum firmware.
-
-**07 — Biscuit Wardriving Node (XIAO ESP32-C5)** — *complete*
-Single ~$8 dual-band ESP32-C5 running DIY Biscuit firmware, phone-controlled over Bluetooth. Handles wardriving and Flock/surveillance detection in one device.
 
 ### Archived (completed; hardware repurposed)
 
