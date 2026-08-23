@@ -37,7 +37,7 @@ sshd is hardened: `PermitRootLogin no`, `PasswordAuthentication no`, key-only. O
 4.  Exposed the bait with an iptables NAT redirect **scoped to** `eth0`: public port 22 → Cowrie's 2222.
 5.  Built the log pipeline: Cowrie writes JSON → Promtail tails it and ships to Loki → Grafana queries Loki. Solved a real permissions issue (Promtail couldn't read the cowrie user's log directory; fixed with least-privilege group membership rather than opening permissions wide).
 6.  Made everything reboot-proof: Cowrie runs as a systemd service (auto-start + auto-restart); the iptables redirect is persisted; ssh.socket stays disabled. Verified the full stack survives a reboot.
-7.  Built a 7-panel Grafana dashboard, bound to the Tailscale interface, reachable privately from any of my devices.
+7.  Built the Grafana dashboard (10 panels, see below), bound to the Tailscale interface, reachable privately from any of my devices.
 
 ## Incident: Locked Myself Out, and the Rebuild (the real lesson)
 
@@ -48,23 +48,37 @@ Because a honeypot is disposable by design, I destroyed the box and rebuilt it c
 
 ## Dashboard
 
-Loki + Promtail + Grafana, all systemd services. Grafana bound to the Tailscale IP only (never public). Promtail scrapes Cowrie's JSON log into Loki; added to the `cowrie` group to read the log directory. Seven panels (built by hand in LogQL):
+Loki + Promtail + Grafana, all systemd services. Grafana bound to the Tailscale IP only (never public). Promtail scrapes Cowrie's JSON log into Loki; added to the `cowrie` group to read the log directory. Ten panels (built by hand in LogQL):
 
 - **Attacks Over Time** (time series) — connection volume, spot the busy periods
 - **Top Attacker IPs** (bar gauge) — who's hitting hardest
 - **Top Passwords** / **Top Usernames** (bar gauge) — the credential-spray dictionary
-- **Total Attacks (24h)** (stat)
 - **Successful Logins** (bar gauge) — separates "actually got in" from noise
 - **Pivot Targets** (bar gauge) — destinations attackers try to relay through (high-value threat intel)
+- **Total Attacks (24h)** (stat)
+- **All-Time Attacks** (stat)
+- **GeoIP Attack Map** (Geomap) — real attacker locations plotted on a world map
+- **Bait File Hits** (stat/panel) — tracks when an attacker opens the honeytoken
 
 Note: LogQL line filters (`|=`) are case-sensitive — matching Cowrie's exact log text mattered.
 
-## Results — Real Attacks Captured (within minutes of going live)
+## GeoIP Attack Map
 
-- **Credential-spray botnet:** logged in with guessed creds (e.g. `theo/theo`, `admin/ocarina`) and immediately attempted to pivot/relay through the box to a fixed external target (`62.210.131.144:2535`). Same actor recurred from multiple IPs in the `2.57.121.0/24` range, each time targeting the same relay destination — Cowrie captured the intent and blocked the relay every time. **Characterized as a botnet using compromised hosts purely as proxies.**
+Cowrie's built-in MaxMind plugin was removed in 3.0.12, so geo-enrichment is done in the log pipeline instead: a **Promtail geoip pipeline stage** uses the MaxMind GeoLite2 database with `source = src_ip` to add lat/lon labels to each event. Grafana's Geomap plots it in **Coords mode** using "Labels to fields" + "Convert field type" to number, with an **Instant query type**. The result is a live world map showing where attackers are actually coming from.
+
+## Honeytoken (bait file)
+
+Planted a juicy fake `/root/passwords.txt` into Cowrie's fake filesystem — contents include a fake crypto wallet/seed phrase, fake API keys, fake DB credentials, and a subtle troll line. The file was injected via `fsctl` on the pickle, with matching content in `honeyfs`. A **"Bait File Hits"** dashboard panel tracks when any attacker `ls`/`cat`s it.
+
+This separates high-signal human attackers (who actually dig for loot) from automated bot noise. The fake DB credential also acts as a **tripwire** — if those credentials ever show up in subsequent login attempts, it means an attacker read and reused them. Tested end-to-end.
+
+## Results — Real Attacks Captured (25k+ over ~2 weeks)
+
+- **Credential-spray botnet:** logged in with guessed creds (e.g. `theo/theo`, `admin/ocarina`) and immediately attempted to pivot/relay through the box to a fixed external target (`62.210.131.144:2535`). Same actor recurred from multiple IPs in the `2.57.121.0/24` range, each time targeting the same relay destination. **Confirmed across two separate honeypot boxes — corroborated infrastructure.** Cowrie captured the intent and blocked the relay every time.
+- **Crypto-trading-bot hunting campaign:** a large financially-motivated campaign probing with usernames like `binance`, `freqtrade`, `solana`, `hummingbot`, `gunbot` — hunting for exposed crypto trading bots to hijack or scrape.
 - **RDP scanner hitting the wrong port:** a scanner spoke RDP (`mstshash=hello`) at the SSH honeypot; Cowrie rejected the malformed protocol in ~2ms. Recurred and became the top source by volume.
 - **Research crawler:** a `ZGrab SSH Survey` scanner performed a full handshake — distinguishable from malicious bots by its banner and behavior.
-- **Bot fingerprinting via HASSH:** a hash of how each SSH client negotiates the connection, which identifies the tool even when the banner is spoofed.
+- **Bot fingerprinting via HASSH:** a hash of how each SSH client negotiates the connection, which identifies the tool even when the banner is spoofed. Used to characterize various bots.
 
 ## What I Learned
 
@@ -74,7 +88,9 @@ Note: LogQL line filters (`|=`) are case-sensitive — matching Cowrie's exact l
 - **Least privilege throughout:** dedicated password-less service user, key-only login, no root SSH, services bound to private interfaces.
 - **Right tool for the constraint:** chose Loki over Elasticsearch because the box's RAM couldn't support the heavier stack.
 - **Real incident response:** symptom → isolate the failing layer → root cause → rebuild → verify, including recovering from a self-inflicted lockout.
-- **Threat characterization from live data:** correlated repeated events into an actor profile (same source range, same pivot target) — the core analyst motion of turning individual alerts into a pattern.
+- **GeoIP enrichment in the log pipeline:** when the app's built-in geo plugin disappears (Cowrie 3.0.12 dropped MaxMind), do it in Promtail — keeps the app stock and the pipeline single-purpose.
+- **Honeytokens for high-signal detection:** a realistic bait file separates human attackers from bot spray, and a fake credential doubles as a tripwire if it's ever reused.
+- **Threat characterization from live data:** correlated repeated events into an actor profile (same source range, same pivot target, corroborated across boxes) — the core analyst motion of turning individual alerts into a pattern.
 
 ## Defensive Takeaways
 
@@ -85,10 +101,8 @@ Note: LogQL line filters (`|=`) are case-sensitive — matching Cowrie's exact l
 
 ## Roadmap (this project)
 
-- **GeoIP map** — enrich events with MaxMind GeoLite2 so attacker locations plot on a Grafana world map.
-- **Alerting to my agent** — wire high-signal events (successful interactive login, canary-file access, activity against the real box) to a real-time pager, deliberately *tuned* to avoid alert fatigue (raw bot noise stays on the dashboard; only signal pages me).
-- **Canary tokens** — plant realistic bait files (e.g. `passwords.txt`, `wallet.dat`) that silently flag when a human attacker opens them, separating real interactive attackers from automated spray.
+- **Alerting to my agent** — wire high-signal events (successful interactive login, honeytoken access, activity against the real box) to a real-time pager, deliberately *tuned* to avoid alert fatigue (raw bot noise stays on the dashboard; only signal pages me).
 
 ## Status
 
-Complete and live. Honeypot is internet-exposed, catching real attackers 24/7, reboot-proof, with three independent admin-access paths and a private 7-panel Grafana dashboard reachable from anywhere over Tailscale. GeoIP map, agent alerting, and canary tokens are the next enhancements.
+Fully complete and live. Honeypot is internet-exposed, catching real attackers 24/7, reboot-proof, with three independent admin-access paths and a private 10-panel Grafana dashboard reachable from anywhere over Tailscale. GeoIP attack map and honeytoken bait file are live; seasoned 2+ weeks with 25k+ real attacks. Agent alerting is the next (and only remaining) enhancement.
