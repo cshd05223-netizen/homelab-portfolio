@@ -32,44 +32,44 @@ Cybersecurity student on a blue-team career track — SOC Analyst → Security E
 
 ### Flagship (complete)
 
-**01 — SIEM Homelab (Wazuh + Suricata)** *(COMPLETE)*
+**01 — SIEM Homelab (Wazuh + Suricata)** — *COMPLETE*
 Isolated purple learning lab ("dojo"): Wazuh SIEM, sealed virtual network, Kali attacker, Metasploitable target, Suricata network IDS. The full attack → detect → defend loop is built and verified: an nmap scan from Kali is detected by Suricata, shipped through Filebeat into the Wazuh indexer, and displayed as alerts in the dashboard with correct source-IP attribution. Includes a real detection-pipeline debugging story (see writeup).
 
-**08 — Internet-Facing SSH Honeypot (Cowrie + Grafana)** *(COMPLETE)*
+**08 — Internet-Facing SSH Honeypot (Cowrie + Grafana)** — *COMPLETE*
 Real internet-exposed SSH honeypot on a DigitalOcean VPS capturing live attacker credentials, commands, and pivot attempts — hardened with key-only auth, Tailscale private dashboard, and a lightweight Loki + Promtail + Grafana log pipeline. 25k+ real attacks over ~2 weeks, a GeoIP attack map plotting attacker locations on a world map, and a honeytoken bait file separating human attackers from bot noise. Survived a self-inflicted lockout → rebuilt with defense-in-depth (see writeup).
 
-### In progress / Active
+### In Progress / Active
 
-**Home Network Watcher** *(in progress — current)*
+**Home Network Watcher** — *in progress, current*
 A second, separate SIEM watching the real home LAN (Suricata + EveBox) — device visibility, catching scans/attacks on the real network, and seeing my own Biscuit scans land. Distinct from the isolated 10.10.10.0/24 lab. Chose Suricata + EveBox over Security Onion to fit the 16GB rig.
 
-**OMI Pendant (DIY awareness layer)** *(in progress)*
-A wearable always-listening mic (ESP32-Sense + battery + case) that feeds my AI operator real context on my day — mood, ambient life, what I'm actually doing. Speaker-isolation (voiceprint-gate to my voice + my girlfriend's) is the key design problem.
+**OMI Pendant (DIY awareness layer)** — *in progress*
+A wearable always-listening mic (ESP32-Sense + battery + case) that feeds my AI operator real context on my day. Speaker-isolation (voiceprint-gate) is the key design problem.
 
-**Opsec Cleanup** *(in progress)*
+**Opsec Cleanup** — *in progress*
 Digital-footprint reduction across finance/crypto cluster, email architecture consolidation, and data-broker removal. Deletion ≠ burial — broker removal is what actually erases the footprint.
 
-**Kail-CyberDeck** *(planning / parts-gathering)*
-Portable Raspberry Pi 4 (8GB) Kali pentest kit — a travel attacker + second attack source for the home lab. Funding locked to gift/Christmas money; build order gated behind "prove it works as a loose pile first" so it doesn't become a drawer project.
+**Kali CyberDeck** — *planning / parts-gathering*
+Portable Raspberry Pi 4 (8GB) Kali pentest kit — a travel attacker + second attack source for the home lab. Funding locked to gift money; build gated behind "prove it works as a loose pile first."
 
-**Music Server** *(parked)*
+**Music Server** — *parked*
 Navidrome self-hosted media server — hobby infrastructure project, currently parked.
 
 ### Complete (ongoing exploration)
 
-**02 — Counter-Surveillance Detector (M5 Atom Lite / eye-spy)** *(complete)*
-Passive BLE + WiFi detector for surveillance/tracking devices (AirTags, body cams, camera vendor OUIs). Defensive privacy tool. Retained as the dedicated passive/counter-surveillance node.
+**02 — Counter-Surveillance Detector (M5 Atom Lite / eye-spy)** — *complete*
+Passive BLE + WiFi detector for surveillance/tracking devices (AirTags, body cams, camera vendor OUIs). Defensive privacy tool.
 
-**03 — HaleHound CYD** *(complete)*
-ESP32 Cheap Yellow Display flashed with HaleHound for multi-protocol wireless auditing (WiFi/BLE/Sub-GHz). Now a learning/experimentation board; its wardriving + Flock role was superseded by the Biscuit C5 (project 07).
+**03 — HaleHound CYD** — *complete*
+ESP32 Cheap Yellow Display flashed with HaleHound for multi-protocol wireless auditing (WiFi/BLE/Sub-GHz). Now a learning board; wardriving role superseded by the Biscuit C5 (project 07).
 
-**06 — Flipper Zero (Momentum)** *(complete — setup; ongoing exploration)*
-Multi-protocol RF/wireless/hardware learning tool. Sub-GHz, NFC, IR, BadUSB, iButton, BLE. Flashed with Momentum custom firmware.
+**06 — Flipper Zero (Momentum)** — *complete, ongoing exploration*
+Multi-protocol RF/wireless/hardware learning tool. Sub-GHz, NFC, IR, BadUSB, iButton, BLE. Flashed with Momentum firmware.
 
-**07 — Biscuit Wardriving Node (XIAO ESP32-C5)** *(complete)*
-Single ~$8 dual-band ESP32-C5 running DIY Biscuit firmware, controlled entirely from my phone over Bluetooth (GPS sourced from the phone). Handles wardriving and Flock/surveillance detection in one phone-controlled device — consolidating what previously took multiple boards.
+**07 — Biscuit Wardriving Node (XIAO ESP32-C5)** — *complete*
+Single ~$8 dual-band ESP32-C5 running DIY Biscuit firmware, phone-controlled over Bluetooth. Handles wardriving and Flock/surveillance detection in one device.
 
-### Archived (completed; hardware since repurposed)
+### Archived (completed; hardware repurposed)
 
 **A1 — CYD Marauder + GPS** — ESP32 Marauder wardriving/WiFi-recon build. Completed; board later repurposed.
 
