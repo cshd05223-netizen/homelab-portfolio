@@ -61,9 +61,6 @@ Real internet-exposed SSH honeypot on a DigitalOcean VPS capturing live attacker
 **Home Network Watcher** — *in progress, current*
 A second, separate SIEM watching the real home LAN (Suricata + EveBox) — device visibility, catching scans/attacks on the real network, and seeing my own Biscuit scans land. Distinct from the isolated 10.10.10.0/24 lab. Chose Suricata + EveBox over Security Onion to fit the 16GB rig.
 
-**OMI Pendant (DIY awareness layer)** — *in progress*
-A wearable always-listening mic (ESP32-Sense + battery + case) that feeds my AI operator real context on my day. Speaker-isolation (voiceprint-gate) is the key design problem.
-
 **Opsec Cleanup** — *in progress*
 Digital-footprint reduction across finance/crypto cluster, email architecture consolidation, and data-broker removal. Deletion ≠ burial — broker removal is what actually erases the footprint.
 
