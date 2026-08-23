@@ -41,6 +41,12 @@ Passive BLE + WiFi detector for surveillance/tracking devices (AirTags, body cam
 **03 — HaleHound CYD** — *COMPLETE*
 ESP32 Cheap Yellow Display flashed with HaleHound for multi-protocol wireless auditing (WiFi/BLE/Sub-GHz). Now a learning board; wardriving role superseded by the Biscuit C5 (project 07).
 
+**04 — CYD Marauder + GPS** — *ARCHIVED* 🗄️
+ESP32 Marauder wardriving/WiFi-recon build. Completed; board later repurposed.
+
+**05 — CYD FancyGotchi** — *ARCHIVED* 🗄️
+Pwnagotchi-style passive WPA handshake/PMKID capture. Completed; board later repurposed.
+
 **06 — Flipper Zero (Momentum)** — *COMPLETE*
 Multi-protocol RF/wireless/hardware learning tool. Sub-GHz, NFC, IR, BadUSB, iButton, BLE. Flashed with Momentum firmware.
 
@@ -66,12 +72,6 @@ Portable Raspberry Pi 4 (8GB) Kali pentest kit — a travel attacker + second at
 
 **Music Server** — *parked*
 Navidrome self-hosted media server — hobby infrastructure project, currently parked.
-
-### Archived (completed; hardware repurposed)
-
-**A1 — CYD Marauder + GPS** — ESP32 Marauder wardriving/WiFi-recon build. Completed; board later repurposed.
-
-**A2 — CYD FancyGotchi** — Pwnagotchi-style passive WPA handshake/PMKID capture. Completed; board later repurposed.
 
 ## Roadmap
 
