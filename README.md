@@ -2,7 +2,7 @@
 
 A hands-on security lab built on physical hardware I own. Blue-team defense is the career path; red-team offense is the hobby that feeds it. Every project documents methodology, results, and defensive takeaways, no fabricated data.
 
-**Current phase:** **Home Network Watcher**, standing up a second, separate SIEM (Suricata + EveBox) that watches the real home LAN for device visibility and detection, distinct from the isolated lab. The detection lab and the VPS honeypot are complete; this is the next build in flight.
+**Current phase:** **Virtual SOC**, building a full SOC analyst workflow in the isolated lab. Windows VM endpoint → Wazuh agent + Sysmon → attack it from Kali (Meterpreter) → hunt telemetry → TheHive ticketing. The detection lab (Phase 1 network) and VPS honeypot are complete; this is the endpoint + casework layer on top.
 
 ## About Me
 
@@ -58,8 +58,8 @@ Real internet-exposed SSH honeypot on a DigitalOcean VPS capturing live attacker
 
 ### Active
 
-**Home Network Watcher**, *in progress, current*
-A second, separate SIEM watching the real home LAN (Suricata + EveBox), device visibility, catching scans/attacks on the real network, and seeing my own Biscuit scans land. Distinct from the isolated 10.10.10.0/24 lab. Chose Suricata + EveBox over Security Onion to fit the 16GB rig.
+**Virtual SOC**, *in progress, current*
+The real SOC build, entirely in the virtual lab. Brick by brick: Windows VM endpoint → Sysmon (SwiftOnSecurity config) → Wazuh agent → attack from Kali (Meterpreter) → hunt telemetry → TheHive ticketing (alert → ticket → investigate → close). This adds the HOST/endpoint detection layer and the actual analyst casework on top of Phase 1's network detection, making it a real SOC workflow, not just a dashboard.
 
 **Opsec Cleanup**, *in progress*
 Digital-footprint reduction across finance/crypto cluster, email architecture consolidation, and data-broker removal. Deletion ≠ burial, broker removal is what actually erases the footprint.
@@ -70,18 +70,24 @@ Portable Raspberry Pi 4 (8GB) Kali pentest kit, a travel attacker + second attac
 **Music Server**, *parked*
 Navidrome self-hosted media server, hobby infrastructure project, currently parked.
 
+### Parked (waiting on owning my own network)
+
+**Home Network Watcher**, *parked*
+A second, separate SIEM watching the real home LAN (Suricata + EveBox). Re-sequenced to parked because it needs physical network access (router/switch downstairs, can't run ethernet or add a managed switch, house rule = don't break anything). Waits until Colin owns his own network. Virtual SOC covers the same learning (agent, telemetry, investigation) without the hardware.
+
 ## Roadmap
 
-The detection lab (Stage 1) and the honeypot (Stage 2) are complete, including the GeoIP attack map and honeytoken. Next up is the Home Network Watcher, then hands-on detection exercises.
+The detection lab (Stage 1) and the honeypot (Stage 2) are complete, including the GeoIP attack map and honeytoken. Current build is the Virtual SOC (Stage 3). The Home Network Watcher is parked until physical network access is possible.
 
 | Stage | What | Status |
 |-------|------|--------|
 | 1 | **Detection lab (Suricata → Wazuh)**, attack → detect → defend loop on the isolated lab. | ✅ Complete |
 | 2 | **Honeypot on a VPS**, internet-exposed Cowrie SSH honeypot on DigitalOcean, Loki + Grafana dashboard over Tailscale, GeoIP attack map, honeytoken bait file. 25k+ attacks captured. | ✅ Complete |
-| 3 | **Home Network Watcher**, separate SIEM (Suricata + EveBox) watching the real home LAN for device visibility + detection. | 🔨 In progress |
-| 4 | **Detection exercises**, run an attack, watch it in Wazuh, write a detection rule, learn to defend (pick one attack, own lab only). The main needle-mover after the watcher is built. | Next |
-| 5 | **Backup systems**, full system/DR backup pass. | Planned |
-| 6 | **Finish Opsec cleanup**, complete the digital-footprint reduction project. | Planned |
+| 3 | **Virtual SOC**, full analyst workflow in the lab: Windows VM + Sysmon + Wazuh agent → attack from Kali (Meterpreter) → hunt telemetry → TheHive ticketing → iterate. Endpoint detection + real casework on top of Phase 1. | 🔨 In progress |
+| 4 | **Detection exercises**, run an attack, watch it in Wazuh, write a detection rule, learn to defend. Built into the Virtual SOC iteration loop. | Next |
+| 5 | **Home Network Watcher**, separate SIEM (Suricata + EveBox) on the real home LAN. Parked until Colin owns his own network (router + managed switch + physical access). | ⏸️ Parked |
+| 6 | **Backup systems**, full system/DR backup pass. | Planned |
+| 7 | **Finish Opsec cleanup**, complete the digital-footprint reduction project. | Planned |
 
 **Trust-tier discipline:** deliberately-attacked systems (lab, honeypot) are kept isolated from any trusted-device monitoring. The honeypot is meant to be compromised, so it never shares a box or a SIEM brain with anything I actually protect.
 
