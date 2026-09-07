@@ -1,4 +1,4 @@
-# 04 - CYD Marauder + GPS - *Archived (completed; board repurposed)*
+# 04, CYD Marauder + GPS, *Archived (completed; board repurposed)*
 
 ## Objective
 Build an ESP32 Marauder wardriving / WiFi-recon device with an integrated GPS module for geolocated access-point mapping.
