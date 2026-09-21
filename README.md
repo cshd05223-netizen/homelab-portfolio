@@ -2,7 +2,7 @@
 
 I break my own stuff so I can learn how to defend it. Blue team is the career, red team is how I understand what I'm actually defending against. Everything here runs on hardware I own, inside an isolated lab, and every project documents what I did honestly, including the parts that went wrong.
 
-**Right now I'm building a Virtual SOC.** A Windows VM as a monitored endpoint, Wazuh agent plus Sysmon on it, attacking it from Kali with Meterpreter, hunting the telemetry, and running the whole thing through TheHive ticketing so it's a real analyst workflow instead of just another dashboard.
+**Right now I'm building an AD Detection Lab.** A Windows Server domain controller with a 2,500-user Active Directory populated by BadBlood so there's a real noise floor, then attacking it from Kali with Kerberoasting and AS-REP roasting, hunting the telemetry in Wazuh, and writing Sigma rules to catch what it missed. The point is finding real signal inside real noise, not watching detections fire on a clean box.
 
 ## About Me
 
@@ -66,9 +66,9 @@ A real internet-exposed SSH honeypot on a DigitalOcean VPS that captures live at
 
 ### Active
 
-**Virtual SOC** *(in progress, current focus)*
+**AD Detection Lab** *(in progress, current focus)*
 
-The real SOC build, entirely inside the virtual lab. Brick by brick: Windows VM endpoint, Sysmon with the SwiftOnSecurity config, Wazuh agent, attack it from Kali with Meterpreter, hunt the telemetry, then wire up TheHive ticketing so an alert turns into a ticket, an investigation, a writeup, and a close. This adds the endpoint detection layer and the actual analyst casework on top of the network detection from project 01. The point is to run the full analyst workflow, not just stand up a dashboard. [See writeup](projects/09-virtual-soc/README.md)
+A real SOC detection build against a realistic target, entirely inside the virtual lab. A Windows Server domain controller with Active Directory populated by BadBlood (~2,500 users, hundreds of groups, randomized ACLs) so there's an actual noise floor, plus Vulnerable-AD to seed specific misconfigurations like Kerberoastable service accounts and abusable ACL chains. Then I attack it from Kali with enumeration, Kerberoasting, and AS-REP roasting, hunt the telemetry in Wazuh, and write Sigma rules for whatever it missed, tuning them against a 48-hour baseline until false positives are manageable. The deliverable is the writeups: every attack gets a script log and a curated notebook entry, and the whole point is finding real signal inside real noise instead of watching detections fire on a clean box. [See writeup](projects/09-virtual-soc/README.md)
 
 **Opsec Cleanup** *(in progress)*
 
@@ -94,8 +94,8 @@ Navidrome self-hosted media server. Hobby project, currently parked.
 |-------|------|--------|
 | 1 | Detection lab (Suricata to Wazuh): attack to detect to defend loop on the isolated lab | Done |
 | 2 | Honeypot on a VPS: Cowrie, Loki + Grafana, GeoIP map, honeytoken, 25k+ attacks captured | Done |
-| 3 | Virtual SOC: Windows VM + Sysmon + Wazuh agent, Meterpreter attack, telemetry hunt, TheHive ticketing | In progress |
-| 4 | Detection exercises: attack, watch it in Wazuh, write a detection rule, learn to defend (built into the Virtual SOC loop) | Next |
+| 3 | AD Detection Lab: Windows Server DC + BadBlood noise floor, Kerberoasting/AS-REP attacks, Wazuh hunt, Sigma rules, TheHive ticketing | In progress |
+| 4 | Detection exercises: attack, watch it in Wazuh, write a detection rule, learn to defend (built into the AD Detection Lab loop) | Next |
 | 5 | Home Network Watcher: separate SIEM on the real home LAN (parked until I own my own network) | Parked |
 | 6 | Backup systems: full system and DR backup pass | Planned |
 | 7 | Finish Opsec cleanup | Planned |
